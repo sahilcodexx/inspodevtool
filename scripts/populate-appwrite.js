@@ -21,36 +21,58 @@ if (!match) {
 }
 const tools = eval(match[1]);
 
-console.log(`Preparing to seed ${tools.length} tools to Appwrite table '${COLLECTION_ID}' (DB: ${DATABASE_ID})...`);
+function getAppwriteCategory(cat) {
+  const c = (cat || "").toLowerCase();
+  if (c.includes("portfolio") || c.includes("personal")) return "personal";
+  if (c.includes("inspiration") || c.includes("gallery")) return "blog";
+  if (c.includes("news")) return "news";
+  return "business";
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function seed() {
+  console.log(`Seeding remaining/all ${tools.length} tools into Appwrite collection '${COLLECTION_ID}' (DB: ${DATABASE_ID})...`);
   let count = 0;
   let skipped = 0;
 
   for (const tool of tools) {
     try {
+      const docData = {
+        url: tool.url,
+        title: tool.name,
+        description: (tool.description || "").slice(0, 990),
+        category: getAppwriteCategory(tool.category),
+        createdBy: "sahilcodex",
+        logo: tool.logo || "",
+        ogimage: tool.ogImage || "",
+      };
+
       await databases.createDocument(
         DATABASE_ID,
         COLLECTION_ID,
         ID.unique(),
-        {
-          name: tool.name,
-          url: tool.url,
-          category: tool.category,
-          description: tool.description || "",
-          ogImage: tool.ogImage || "",
-          logo: tool.logo || "",
-        }
+        docData
       );
       count++;
-      console.log(`[${count}/${tools.length}] Uploaded: ${tool.name}`);
+      console.log(`[${count}/${tools.length}] Uploaded: ${tool.name} (${docData.category})`);
     } catch (err) {
-      console.warn(`Could not upload ${tool.name}:`, err.message);
-      skipped++;
+      if (err.message.includes("Rate limit")) {
+        console.log(`Rate limit hit on '${tool.name}', waiting 2.5s...`);
+        await sleep(2500);
+      } else {
+        console.warn(`Skipped/Failed ${tool.name}:`, err.message);
+        skipped++;
+      }
     }
+    await sleep(400);
   }
 
-  console.log(`Finished! Successfully uploaded: ${count}, Skipped/Failed: ${skipped}`);
+  console.log(`\n====================================`);
+  console.log(`Appwrite Seeding Finished!`);
+  console.log(`Uploaded: ${count} tools`);
+  console.log(`Skipped/Failed: ${skipped} tools`);
+  console.log(`====================================\n`);
 }
 
 seed();
