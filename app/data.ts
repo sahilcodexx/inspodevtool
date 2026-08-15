@@ -650,5 +650,133 @@ export const toolsData: Tool[] = [
     "category": "Components & UI",
     "description": "NumberFlow for React - An animated number component",
     "ogImage": "https://number-flow.barvian.me/_astro/preview.BEmN6myI_Z1D6JPw.png"
+  },
+  {
+    "id": "tool-80",
+    "name": "Javii Tools",
+    "url": "https://javii.tools/",
+    "category": "Components & UI",
+    "description": "chartlab — apple-style charts & visual components for web creators.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://javii.tools/"
+  },
+  {
+    "id": "tool-81",
+    "name": "ForgeGUI",
+    "url": "https://forgegui.com/",
+    "category": "Dev Tools",
+    "description": "ForgeGUI - The #1 AI Platform for Game Developers and UI artists.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://forgegui.com/"
+  },
+  {
+    "id": "tool-82",
+    "name": "Mockup Freak",
+    "url": "https://mockupfreak.com/",
+    "category": "Dev Tools",
+    "description": "Premium Phone Mockups | Upload, Preview, Download in 4K | Mockup Freak",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://mockupfreak.com/"
+  },
+  {
+    "id": "tool-83",
+    "name": "Ditther",
+    "url": "https://ditther.com/",
+    "category": "Dev Tools",
+    "description": "Ditther - Free Dither, Halftone & Pixel Effects Tool for web designers.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://ditther.com/"
+  },
+  {
+    "id": "tool-84",
+    "name": "Doppio",
+    "url": "https://doppio.live/",
+    "category": "Dev Tools",
+    "description": "Doppio - Create Stunning Interactive Content with Google Slides.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://doppio.live/"
+  },
+  {
+    "id": "tool-85",
+    "name": "Stylokit",
+    "url": "https://stylokit.com/",
+    "category": "Components & UI",
+    "description": "Stylokit - Premium Framer Templates and responsive web UI components.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://stylokit.com/"
+  },
+  {
+    "id": "tool-86",
+    "name": "UX Pilot",
+    "url": "https://uxpilot.ai/",
+    "category": "Dev Tools",
+    "description": "UX Pilot - Superfast UX/UI Design with AI generation and wireframing.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://uxpilot.ai/"
+  },
+  {
+    "id": "tool-87",
+    "name": "Beautiful.ai",
+    "url": "https://www.beautiful.ai/",
+    "category": "Dev Tools",
+    "description": "AI Presentation Software for Teams and digital product creators.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://www.beautiful.ai/"
+  },
+  {
+    "id": "tool-88",
+    "name": "Morflax Studio",
+    "url": "https://studio.morflax.com/",
+    "category": "Dev Tools",
+    "description": "Morflax Studio - 3D Mockups & Motion in Your Browser.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://studio.morflax.com/"
+  },
+  {
+    "id": "tool-89",
+    "name": "Admire The Web",
+    "url": "https://admiretheweb.com/",
+    "category": "Inspiration",
+    "description": "Admire The Web - The very best in web design inspiration.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://admiretheweb.com/"
+  },
+  {
+    "id": "tool-90",
+    "name": "Name That UI",
+    "url": "https://namethatui.com/",
+    "category": "Inspiration",
+    "description": "NameThatUI — What Is This UI Element Called? Visual dictionary for UI patterns.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://namethatui.com/"
+  },
+  {
+    "id": "tool-91",
+    "name": "Majesticons",
+    "url": "https://majesticons.com/",
+    "category": "Icons & Assets",
+    "description": "Majesticons — Premium SVG icon library with 11,000+ icons.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://majesticons.com/"
+  },
+  {
+    "id": "tool-92",
+    "name": "Kinetics",
+    "url": "https://kinetics.colorion.co/",
+    "category": "Components & UI",
+    "description": "Kinetics — Spring-physics motion for web interfaces & Framer Motion presets.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://kinetics.colorion.co/"
+  },
+  {
+    "id": "tool-93",
+    "name": "Marto Mads",
+    "url": "https://martomads.com/",
+    "category": "Components & UI",
+    "description": "Marto Mads — Launch your site with premium Framer templates.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://martomads.com/"
+  },
+  {
+    "id": "tool-94",
+    "name": "Vira Theme",
+    "url": "https://www.vira.build/",
+    "category": "Dev Tools",
+    "description": "Vira Theme — A coding experience you won’t want to leave.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://www.vira.build/"
+  },
+  {
+    "id": "tool-95",
+    "name": "Loftlyy",
+    "url": "https://www.loftlyy.com/",
+    "category": "Icons & Assets",
+    "description": "Loftlyy — Discover and explore brand identities, logos, colors, and design systems.",
+    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://www.loftlyy.com/"
   }
 ];
