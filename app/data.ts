@@ -657,7 +657,7 @@ export const toolsData: Tool[] = [
     "url": "https://javii.tools/",
     "category": "Components & UI",
     "description": "chartlab — apple-style charts & visual components for web creators.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://javii.tools/"
+    "ogImage": "https://javii.tools/opengraph_new.png?v=6"
   },
   {
     "id": "tool-81",
@@ -665,7 +665,7 @@ export const toolsData: Tool[] = [
     "url": "https://forgegui.com/",
     "category": "Dev Tools",
     "description": "ForgeGUI - The #1 AI Platform for Game Developers and UI artists.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://forgegui.com/"
+    "ogImage": "https://forgegui.com/og-image.png"
   },
   {
     "id": "tool-82",
@@ -673,7 +673,7 @@ export const toolsData: Tool[] = [
     "url": "https://mockupfreak.com/",
     "category": "Dev Tools",
     "description": "Premium Phone Mockups | Upload, Preview, Download in 4K | Mockup Freak",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://mockupfreak.com/"
+    "ogImage": "https://gpjtxzuvwacjgfevgrkg.supabase.co/storage/v1/object/public/brand-assets/og-default.png"
   },
   {
     "id": "tool-83",
@@ -681,7 +681,7 @@ export const toolsData: Tool[] = [
     "url": "https://ditther.com/",
     "category": "Dev Tools",
     "description": "Ditther - Free Dither, Halftone & Pixel Effects Tool for web designers.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://ditther.com/"
+    "ogImage": "https://ditther.com/og-image.jpg"
   },
   {
     "id": "tool-84",
@@ -689,7 +689,7 @@ export const toolsData: Tool[] = [
     "url": "https://doppio.live/",
     "category": "Dev Tools",
     "description": "Doppio - Create Stunning Interactive Content with Google Slides.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://doppio.live/"
+    "ogImage": "https://doppio.live/assets/og.png"
   },
   {
     "id": "tool-85",
@@ -697,7 +697,7 @@ export const toolsData: Tool[] = [
     "url": "https://stylokit.com/",
     "category": "Components & UI",
     "description": "Stylokit - Premium Framer Templates and responsive web UI components.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://stylokit.com/"
+    "ogImage": "https://stylokit.com/og-image.png"
   },
   {
     "id": "tool-86",
@@ -705,7 +705,7 @@ export const toolsData: Tool[] = [
     "url": "https://uxpilot.ai/",
     "category": "Dev Tools",
     "description": "UX Pilot - Superfast UX/UI Design with AI generation and wireframing.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://uxpilot.ai/"
+    "ogImage": "https://uxpilot.ai/assets/images/ux-pilot-sm.png"
   },
   {
     "id": "tool-87",
@@ -713,7 +713,7 @@ export const toolsData: Tool[] = [
     "url": "https://www.beautiful.ai/",
     "category": "Dev Tools",
     "description": "AI Presentation Software for Teams and digital product creators.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://www.beautiful.ai/"
+    "ogImage": "https://cdn.prod.website-files.com/59deb588800ae30001ec19c9/679345319c7f2f3d2301228b_Open%20Graph_final.jpg"
   },
   {
     "id": "tool-88",
@@ -721,7 +721,7 @@ export const toolsData: Tool[] = [
     "url": "https://studio.morflax.com/",
     "category": "Dev Tools",
     "description": "Morflax Studio - 3D Mockups & Motion in Your Browser.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://studio.morflax.com/"
+    "ogImage": "https://static.morflax.com/og/morflax_studio_facebook.jpg"
   },
   {
     "id": "tool-89",
@@ -729,7 +729,7 @@ export const toolsData: Tool[] = [
     "url": "https://admiretheweb.com/",
     "category": "Inspiration",
     "description": "Admire The Web - The very best in web design inspiration.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://admiretheweb.com/"
+    "ogImage": "https://assets.admiretheweb.com/wp-content/uploads/2026/08/Neundex.jpg?w=1600&h=1200&fit=crop&fp-y=0&auto=format"
   },
   {
     "id": "tool-90",
@@ -737,7 +737,7 @@ export const toolsData: Tool[] = [
     "url": "https://namethatui.com/",
     "category": "Inspiration",
     "description": "NameThatUI — What Is This UI Element Called? Visual dictionary for UI patterns.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://namethatui.com/"
+    "ogImage": "https://namethatui.com/web/lightbox/opengraph-image?70151c385bda46d6"
   },
   {
     "id": "tool-91",
@@ -745,7 +745,7 @@ export const toolsData: Tool[] = [
     "url": "https://majesticons.com/",
     "category": "Icons & Assets",
     "description": "Majesticons — Premium SVG icon library with 11,000+ icons.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://majesticons.com/"
+    "ogImage": "https://majesticons.com/opengraph-image.png?opengraph-image.0175b2hhes1cn.png"
   },
   {
     "id": "tool-92",
@@ -753,15 +753,14 @@ export const toolsData: Tool[] = [
     "url": "https://kinetics.colorion.co/",
     "category": "Components & UI",
     "description": "Kinetics — Spring-physics motion for web interfaces & Framer Motion presets.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://kinetics.colorion.co/"
+    "ogImage": "https://kinetics.colorion.co/og-image.png"
   },
   {
     "id": "tool-93",
     "name": "Marto Mads",
     "url": "https://martomads.com/",
     "category": "Components & UI",
-    "description": "Marto Mads — Launch your site with premium Framer templates.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://martomads.com/"
+    "description": "Marto Mads — Launch your site with premium Framer templates."
   },
   {
     "id": "tool-94",
@@ -769,7 +768,7 @@ export const toolsData: Tool[] = [
     "url": "https://www.vira.build/",
     "category": "Dev Tools",
     "description": "Vira Theme — A coding experience you won’t want to leave.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://www.vira.build/"
+    "ogImage": "https://framerusercontent.com/images/o91gecVWj8rUfWdaYko3XUWuzw.jpg"
   },
   {
     "id": "tool-95",
@@ -777,6 +776,6 @@ export const toolsData: Tool[] = [
     "url": "https://www.loftlyy.com/",
     "category": "Icons & Assets",
     "description": "Loftlyy — Discover and explore brand identities, logos, colors, and design systems.",
-    "ogImage": "https://image.thum.io/get/width/1200/crop/630/auth/74032-design/https://www.loftlyy.com/"
+    "ogImage": "https://www.loftlyy.com/logo.webp?dpl=dpl_5VBiZCwGT3nQFkYqezjAB8d6YCE1"
   }
 ];
