@@ -73,7 +73,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
   const domain = new URL(tool.url).hostname.replace(/^www\./, "");
   const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-  const relatedTools = toolsData.filter((t) => t.category === tool.category && t.id !== tool.id).slice(0, 6);
+  const relatedTools = toolsData.filter((t) => t.category === tool.category && t.id !== tool.id).slice(0, 8);
   const categorySize = toolsData.filter((t) => t.category === tool.category).length;
   const features = getCategoryFeatures(tool.category, tool.name);
 
@@ -82,9 +82,9 @@ export default async function ToolPage({ params }: ToolPageProps) {
       {/* Left Sidebar */}
       <Sidebar selectedCategory={tool.category} />
 
-      {/* Main Content Area - Centered blue box framed by equal margin space on both sides */}
+      {/* Main Content Area - max-w-[90rem] container (max-w-8xl) */}
       <div className="flex-1 min-w-0 flex flex-col items-center justify-between">
-        <main className="w-full max-w-6xl px-10 sm:px-14 pt-8 pb-32 flex flex-col min-w-0 mx-auto">
+        <main className="w-full max-w-[90rem] px-6 sm:px-8 pt-8 pb-32 flex flex-col min-w-0 mx-auto">
           {/* Top Breadcrumb */}
           <div className="flex items-center justify-between gap-4 mb-6 text-xs text-zinc-500 dark:text-zinc-400 w-full">
             <div className="flex items-center gap-1.5 overflow-x-auto">
@@ -101,16 +101,16 @@ export default async function ToolPage({ params }: ToolPageProps) {
           </div>
 
           {/* 1.91:1 Aspect Ratio Preview Image Card */}
-          <div className="group relative aspect-[1.91/1] max-h-[480px] w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100 dark:bg-[#121215] shadow-xs mb-8 flex items-center justify-center p-2">
+          <div className="group relative aspect-[1.91/1] max-h-[520px] w-full rounded-lg overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100 dark:bg-[#121215] shadow-xs mb-8 flex items-center justify-center p-2">
             {tool.ogImage ? (
               <img
                 src={tool.ogImage}
                 alt={`${tool.name} preview`}
-                className="max-w-full max-h-full object-contain rounded-xl group-hover:scale-[1.015] transition-transform duration-500"
+                className="max-w-full max-h-full object-contain rounded-md group-hover:scale-[1.015] transition-transform duration-500"
               />
             ) : (
               <div className="p-8 text-center flex flex-col items-center justify-center w-full h-full">
-                <div className="w-16 h-16 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center mb-3 p-3 shadow-xs">
+                <div className="w-16 h-16 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center mb-3 p-3 shadow-xs">
                   <img src={favicon} alt="" className="w-8 h-8 object-contain" />
                 </div>
                 <h2 className="text-xl font-bold text-zinc-800 dark:text-zinc-200">{tool.name}</h2>
@@ -119,7 +119,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
             )}
 
             {/* Hover Center Action Overlay */}
-            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-2xs rounded-2xl">
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-2xs rounded-lg">
               <a
                 href={tool.url}
                 target="_blank"
@@ -316,7 +316,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
             </div>
           </div>
 
-          {/* Related Tools Grid - 3 Cards per row */}
+          {/* Related Tools Grid - 4 Cards per row */}
           {relatedTools.length > 0 && (
             <div className="mb-12 w-full">
               <div className="flex items-center justify-between mb-6">
@@ -330,7 +330,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                   Browse all {categorySize} →
                 </Link>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
                 {relatedTools.map((r) => (
                   <ToolCard key={r.id} tool={r} />
                 ))}
