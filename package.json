@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:appwrite": "node scripts/populate-appwrite.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
