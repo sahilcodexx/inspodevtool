@@ -1,13 +1,15 @@
-import type { Category as CategoryData } from "../data";
+import type { Tool } from "../data";
 import { ToolLink } from "./tool-link";
 
-export function Category({
-  category,
-  wide = false,
-}: {
-  category: CategoryData;
+interface CategoryProps {
+  category: {
+    title: string;
+    tools: Tool[];
+  };
   wide?: boolean;
-}) {
+}
+
+export function Category({ category, wide = false }: CategoryProps) {
   return (
     <section
       className={`bg-page p-5 sm:p-6 xl:p-[30px] ${
@@ -18,7 +20,7 @@ export function Category({
         {category.title}
       </h2>
       <ul className="flex flex-col gap-[9px]">
-        {category.tools.map((tool) => (
+        {category.tools.map((tool: Tool) => (
           <li key={tool.name}>
             <ToolLink tool={tool} />
           </li>

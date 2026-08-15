@@ -4,7 +4,6 @@ import { useState, useMemo } from "react";
 import { toolsData, categoriesList } from "./data";
 import { Sidebar } from "./components/sidebar";
 import { ToolCard } from "./components/tool-card";
-import { NewsletterCard } from "./components/newsletter-card";
 import { FloatingBar } from "./components/floating-bar";
 import { Footer } from "./components/footer";
 
@@ -32,9 +31,9 @@ export default function Home() {
         onSelectCategory={(cat) => setSelectedCategory(cat)}
       />
 
-      {/* Main Content Wrapper - Centered blue box framed by equal margin space on both sides */}
+      {/* Main Content Wrapper - max-w-8xl container */}
       <div className="flex-1 min-w-0 flex flex-col items-center justify-between">
-        <main className="w-full max-w-6xl px-10 sm:px-14 pt-8 pb-24 flex flex-col min-w-0 mx-auto">
+        <main className="w-full max-w-[90rem] px-6 sm:px-8 pt-8 pb-24 flex flex-col min-w-0 mx-auto">
           {/* Header */}
           <header className="mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-2">
@@ -65,7 +64,7 @@ export default function Home() {
             </div>
           </header>
 
-          {/* Tools Grid - 3 cards per row */}
+          {/* Tools Grid - 4 cards per row */}
           <div className="flex-1 w-full">
             <div className="flex items-center justify-between mb-4">
               <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
@@ -74,13 +73,9 @@ export default function Home() {
             </div>
 
             {filteredTools.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                {filteredTools.map((tool, index) => (
-                  <div key={tool.id} className="contents">
-                    <ToolCard tool={tool} />
-                    {/* Insert newsletter card after the 5th item */}
-                    {index === 4 && <NewsletterCard />}
-                  </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
+                {filteredTools.map((tool) => (
+                  <ToolCard key={tool.id} tool={tool} />
                 ))}
               </div>
             ) : (
@@ -101,7 +96,7 @@ export default function Home() {
         searchQuery={searchQuery}
         onSearchChange={(query) => setSearchQuery(query)}
         selectedCategory={selectedCategory}
-        onSelectCategory={(category) => setSelectedCategory(category)}
+        onCategoryChange={(category) => setSelectedCategory(category)}
       />
     </div>
   );

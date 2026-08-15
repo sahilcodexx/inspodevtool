@@ -11,6 +11,9 @@ importers:
       '@base-ui/react':
         specifier: ^1.7.0
         version: 1.7.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      appwrite:
+        specifier: ^17.0.2
+        version: 17.0.2
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -970,6 +973,9 @@ packages:
   ansi-styles@4.3.0:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
+
+  appwrite@17.0.2:
+    resolution: {integrity: sha512-h8frLDRYzFDLS9xA2s8ZSlH/prPFq/ma5477fgQHHLcE/t9RDxNImpq9AleRUb9Oh1YJiP49HCObxgSTGW5AQA==}
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
@@ -3883,6 +3889,8 @@ snapshots:
   ansi-styles@4.3.0:
     dependencies:
       color-convert: 2.0.1
+
+  appwrite@17.0.2: {}
 
   argparse@2.0.1: {}
 

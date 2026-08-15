@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AppwritePing } from "@/app/components/appwrite-ping";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -35,7 +36,10 @@ export default function RootLayout({
       </head>
       <body>
         <TooltipProvider>
-          <SidebarProvider>{children}</SidebarProvider>
+          <SidebarProvider>
+            <AppwritePing />
+            {children}
+          </SidebarProvider>
         </TooltipProvider>
       </body>
     </html>
