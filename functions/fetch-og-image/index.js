@@ -1,12 +1,12 @@
-const ogs = require("open-graph-scraper");
+import ogs from "open-graph-scraper";
 
-module.exports = async ({ req, res, log, error }) => {
+export default async ({ req, res, log, error }) => {
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+    const body = req.bodyJson || (req.bodyText ? JSON.parse(req.bodyText) : {});
     const url = typeof body.url === "string" ? body.url.trim() : "";
 
     if (!url || !/^https?:\/\//i.test(url)) {
-      return res.json({ error: "A valid http or https URL is required." }, 400);
+      return res.json({ error: "A valid http or https URL is required." });
     }
 
     const { result, error: scraperError } = await ogs({
@@ -36,8 +36,8 @@ module.exports = async ({ req, res, log, error }) => {
       description: result.ogDescription || result.twitterDescription || "",
     });
   } catch (err) {
-    error(err);
-    log("OG metadata lookup failed; client will use its fallback image.");
+    error(err instanceof Error ? err.message : String(err));
+    log("OG metadata lookup failed; no preview URL was returned.");
     return res.json({ ogImage: "" });
   }
 };
