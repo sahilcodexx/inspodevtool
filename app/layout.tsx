@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppwritePing } from "@/app/components/appwrite-ping";
+import { AuthProvider } from "@/lib/auth-context";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -26,7 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("antialiased", inter.variable, "font-sans", geist.variable)}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn("antialiased", inter.variable, "font-sans", geist.variable)}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -35,12 +40,14 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <TooltipProvider>
-          <SidebarProvider>
-            <AppwritePing />
-            {children}
-          </SidebarProvider>
-        </TooltipProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <SidebarProvider>
+              <AppwritePing />
+              {children}
+            </SidebarProvider>
+          </TooltipProvider>
+        </AuthProvider>
       </body>
     </html>
   );
