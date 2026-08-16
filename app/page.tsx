@@ -1,18 +1,45 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { toolsData, categoriesList } from "./data";
+import { useState, useMemo, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import type { Tool } from "@/lib/tools";
+import { getCategories, getToolsFromDatabase } from "@/lib/tools";
 import { Sidebar } from "./components/sidebar";
+import { Navbar } from "./components/navbar";
 import { ToolCard } from "./components/tool-card";
 import { FloatingBar } from "./components/floating-bar";
 import { Footer } from "./components/footer";
 
-export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+function HomeContent() {
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category");
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    () => categoryFromUrl || "All"
+  );
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [tools, setTools] = useState<Tool[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    getToolsFromDatabase().then((items) => {
+      if (active) {
+        setTools(items);
+        setLoading(false);
+      }
+    });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    if (categoryFromUrl) {
+      setSelectedCategory(categoryFromUrl);
+    }
+  }, [categoryFromUrl]);
 
   const filteredTools = useMemo(() => {
-    return toolsData.filter((tool) => {
+    return tools.filter((tool) => {
       const matchesCategory =
         selectedCategory === "All" || tool.category === selectedCategory;
       const matchesSearch =
@@ -21,18 +48,24 @@ export default function Home() {
         tool.category.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, tools]);
+
+  const categoriesList = getCategories(tools);
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-row w-full transition-colors duration-200">
       {/* Left Navigation Sidebar */}
       <Sidebar
         selectedCategory={selectedCategory}
+        categories={categoriesList}
         onSelectCategory={(cat) => setSelectedCategory(cat)}
       />
 
-      {/* Main Content Wrapper - max-w-8xl container */}
+      {/* Main Content Wrapper */}
       <div className="flex-1 min-w-0 flex flex-col items-center justify-between">
+        {/* Top Navbar */}
+        <Navbar />
+
         <main className="w-full max-w-[90rem] px-6 sm:px-8 pt-8 pb-24 flex flex-col min-w-0 mx-auto">
           {/* Header */}
           <header className="mb-8">
@@ -72,7 +105,17 @@ export default function Home() {
               </div>
             </div>
 
-            {filteredTools.length > 0 ? (
+                {loading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <div key={index} className="space-y-2.5">
+                    <div className="aspect-[1.91/1] rounded-lg border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-100 dark:bg-zinc-900 animate-pulse" />
+                    <div className="h-3 w-2/3 rounded bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
+                    <div className="h-2.5 w-full rounded bg-zinc-100 dark:bg-zinc-900 animate-pulse" />
+                  </div>
+                ))}
+              </div>
+            ) : filteredTools.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
                 {filteredTools.map((tool) => (
                   <ToolCard key={tool.id} tool={tool} />
@@ -99,5 +142,13 @@ export default function Home() {
         onCategoryChange={(category) => setSelectedCategory(category)}
       />
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
   );
 }

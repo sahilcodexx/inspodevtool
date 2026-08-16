@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { Tool } from "../data";
+import type { Tool } from "@/lib/tools";
+import { getImageProxyUrl } from "@/lib/tools";
 
 interface ToolCardProps {
   tool: Tool;
@@ -24,7 +25,7 @@ export function ToolCard({ tool }: ToolCardProps) {
       >
         {tool.ogImage && !imageError ? (
           <img
-            src={tool.ogImage}
+            src={getImageProxyUrl(tool.ogImage, tool.url)}
             alt={`${tool.name} preview`}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
