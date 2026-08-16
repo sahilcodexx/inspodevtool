@@ -1,0 +1,8 @@
+{
+  "name": "fetch-og-image",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "open-graph-scraper": "^6.12.0"
+  }
+}

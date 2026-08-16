@@ -1,9 +1,10 @@
-import { Client, Account, Databases } from "appwrite";
+import { Client, Account, Databases, Avatars, Functions } from "appwrite";
 
 export const APPWRITE_ENDPOINT = "https://nyc.cloud.appwrite.io/v1";
 export const APPWRITE_PROJECT_ID = "6a806fa6002023f196d2";
 export const APPWRITE_DATABASE_ID = "6a8073ac00388157613c";
 export const APPWRITE_COLLECTION_ID = "websiteurl";
+export const APPWRITE_OG_FUNCTION_ID = "fetch-og-image";
 
 const client = new Client()
     .setEndpoint(APPWRITE_ENDPOINT)
@@ -11,5 +12,7 @@ const client = new Client()
 
 const account = new Account(client);
 const databases = new Databases(client);
+const avatars = new Avatars(client);
+const functions = new Functions(client);
 
-export { client, account, databases };
+export { client, account, databases, avatars, functions };

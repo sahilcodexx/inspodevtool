@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { client, databases, APPWRITE_DATABASE_ID } from "@/lib/appwrite";
+import {
+  client,
+  databases,
+  APPWRITE_DATABASE_ID,
+  APPWRITE_COLLECTION_ID,
+} from "@/lib/appwrite";
 
 export function AppwritePing() {
   useEffect(() => {
@@ -15,14 +20,22 @@ export function AppwritePing() {
         console.log("Appwrite server ping status:", err);
       });
 
-    // 2. Ping Appwrite Database 6a8073ac00388157613c
+    // 2. Ping the collection that is actually configured for this app.
+    // "tools" was an old collection name and caused a misleading 404 on
+    // every page load.
     databases
-      .listDocuments(APPWRITE_DATABASE_ID, "tools")
+      .listDocuments(APPWRITE_DATABASE_ID, APPWRITE_COLLECTION_ID)
       .then((res: unknown) => {
-        console.log(`✓ Appwrite Database (${APPWRITE_DATABASE_ID}) Verified:`, res);
+        console.log(
+          `✓ Appwrite Database (${APPWRITE_DATABASE_ID}/${APPWRITE_COLLECTION_ID}) Verified:`,
+          res
+        );
       })
       .catch((err: unknown) => {
-        console.log(`Appwrite DB (${APPWRITE_DATABASE_ID}) status:`, err);
+        console.error(
+          `Appwrite DB (${APPWRITE_DATABASE_ID}/${APPWRITE_COLLECTION_ID}) status:`,
+          err
+        );
       });
   }, []);
 
