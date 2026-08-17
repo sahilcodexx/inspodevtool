@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { toolsData } from "../../data";
+import { getToolsFromDatabase } from "@/lib/tools";
 import { Sidebar } from "../../components/sidebar";
+import { Navbar } from "../../components/navbar";
 import { ToolCard } from "../../components/tool-card";
 import { Footer } from "../../components/footer";
 import { FloatingBar } from "../../components/floating-bar";
-import { ArrowUpRight, Bookmark } from "lucide-react";
+import { ArrowUpRight, Bookmark, Flag, Share2 } from "lucide-react";
+import { getImageProxyUrl } from "@/lib/tools";
 
 interface ToolPageProps {
   params: Promise<{
@@ -13,11 +15,7 @@ interface ToolPageProps {
   }>;
 }
 
-export async function generateStaticParams() {
-  return toolsData.map((tool) => ({
-    id: tool.id,
-  }));
-}
+export const dynamic = "force-dynamic";
 
 function getCategoryFeatures(category: string, toolName: string) {
   switch (category) {
@@ -65,7 +63,8 @@ function getCategoryFeatures(category: string, toolName: string) {
 
 export default async function ToolPage({ params }: ToolPageProps) {
   const { id } = await params;
-  const tool = toolsData.find((t) => t.id === id);
+  const tools = await getToolsFromDatabase();
+  const tool = tools.find((t) => t.id === id);
 
   if (!tool) {
     notFound();
@@ -73,20 +72,23 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
   const domain = new URL(tool.url).hostname.replace(/^www\./, "");
   const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-  const relatedTools = toolsData.filter((t) => t.category === tool.category && t.id !== tool.id).slice(0, 8);
-  const categorySize = toolsData.filter((t) => t.category === tool.category).length;
+  const relatedTools = tools.filter((t) => t.category === tool.category && t.id !== tool.id).slice(0, 8);
+  const categorySize = tools.filter((t) => t.category === tool.category).length;
   const features = getCategoryFeatures(tool.category, tool.name);
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-row w-full transition-colors duration-200">
       {/* Left Sidebar */}
-      <Sidebar selectedCategory={tool.category} />
+      <Sidebar selectedCategory={tool.category} categories={["All", ...Array.from(new Set(tools.map((item) => item.category))).sort()]} />
 
-      {/* Main Content Area - max-w-[90rem] container (max-w-8xl) */}
+      {/* Main Content Area */}
       <div className="flex-1 min-w-0 flex flex-col items-center justify-between">
-        <main className="w-full max-w-[90rem] px-6 sm:px-8 pt-8 pb-32 flex flex-col min-w-0 mx-auto">
+        {/* Top Navbar */}
+        <Navbar />
+
+        <main className="w-full max-w-[82rem] px-5 sm:px-8 lg:px-10 pt-6 pb-32 flex flex-col min-w-0 mx-auto">
           {/* Top Breadcrumb */}
-          <div className="flex items-center justify-between gap-4 mb-6 text-xs text-zinc-500 dark:text-zinc-400 w-full">
+          <div className="flex items-center justify-between gap-4 mb-4 text-xs text-zinc-500 dark:text-zinc-400 w-full">
             <div className="flex items-center gap-1.5 overflow-x-auto">
               <Link href="/" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition">
                 Home
@@ -100,13 +102,43 @@ export default async function ToolPage({ params }: ToolPageProps) {
             </div>
           </div>
 
-          {/* 1.91:1 Aspect Ratio Preview Image Card */}
-          <div className="group relative aspect-[1.91/1] max-h-[520px] w-full rounded-lg overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100 dark:bg-[#121215] shadow-xs mb-8 flex items-center justify-center p-2">
+          {/* Tool identity and section navigation */}
+          <div className="flex flex-wrap items-end justify-between gap-5 border-b border-zinc-200/60 dark:border-zinc-800/80 pb-4 mb-5">
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 flex items-center justify-center p-2 shadow-xs shrink-0">
+                <img src={favicon} alt="" className="w-7 h-7 object-contain" />
+              </div>
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  {tool.name}
+                </h1>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{domain}</p>
+              </div>
+            </div>
+            <a
+              href={tool.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-semibold flex items-center gap-2 hover:bg-zinc-700 dark:hover:bg-white active:scale-[0.98] transition duration-150"
+            >
+              Visit website <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          <div className="flex items-center gap-5 border-b border-zinc-200/60 dark:border-zinc-800/80 mb-6 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            <span className="relative pb-3 text-zinc-900 dark:text-zinc-100 after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-zinc-900 dark:after:bg-zinc-100">Overview</span>
+            <span className="pb-3">Details</span>
+            <span className="pb-3">Related tools</span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_220px] gap-6 items-start mb-8">
+          {/* Preview image */}
+          <div className="group relative aspect-[2.05/1] max-h-[440px] w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100 dark:bg-[#121215] shadow-xs flex items-center justify-center">
             {tool.ogImage ? (
               <img
-                src={tool.ogImage}
+                src={getImageProxyUrl(tool.ogImage, tool.url)}
                 alt={`${tool.name} preview`}
-                className="max-w-full max-h-full object-contain rounded-md group-hover:scale-[1.015] transition-transform duration-500"
+                className="w-full h-full object-cover rounded-2xl group-hover:scale-[1.012] transition-transform duration-300 ease-out"
               />
             ) : (
               <div className="p-8 text-center flex flex-col items-center justify-center w-full h-full">
@@ -119,12 +151,12 @@ export default async function ToolPage({ params }: ToolPageProps) {
             )}
 
             {/* Hover Center Action Overlay */}
-            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-2xs rounded-lg">
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out flex items-center justify-center backdrop-blur-2xs rounded-2xl">
               <a
                 href={tool.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-full bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white font-semibold text-sm shadow-xl hover:scale-105 transition-transform flex items-center gap-2"
+                className="px-5 py-2.5 rounded-full bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white font-semibold text-sm shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-transform duration-150 ease-out flex items-center gap-2"
               >
                 <span>Visit website</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -132,14 +164,42 @@ export default async function ToolPage({ params }: ToolPageProps) {
             </div>
           </div>
 
+          <aside className="hidden lg:block border-l border-zinc-200/60 dark:border-zinc-800/80 pl-5 text-xs">
+            <div className="space-y-1">
+              <button type="button" className="w-full flex items-center gap-2.5 py-2 text-left text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                <Bookmark className="w-3.5 h-3.5" /> Add to collection
+              </button>
+              <button type="button" className="w-full flex items-center gap-2.5 py-2 text-left text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                <Share2 className="w-3.5 h-3.5" /> Share
+              </button>
+              <button type="button" className="w-full flex items-center gap-2.5 py-2 text-left text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                <Flag className="w-3.5 h-3.5" /> Report a problem
+              </button>
+            </div>
+            <div className="mt-7 pt-5 border-t border-zinc-200/60 dark:border-zinc-800/80">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">Similar tools</p>
+              <div className="space-y-2.5">
+                {relatedTools.slice(0, 4).map((related) => (
+                  <Link key={related.id} href={`/tools/${related.id}`} className="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition">
+                    <span className="w-5 h-5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center overflow-hidden shrink-0">
+                      <img src={`https://www.google.com/s2/favicons?domain=${new URL(related.url).hostname}&sz=32`} alt="" className="w-3.5 h-3.5" />
+                    </span>
+                    <span className="truncate">{related.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </aside>
+          </div>
+
           {/* Tool Header & Action Buttons */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-zinc-200/60 dark:border-zinc-800/60 mb-8 w-full">
+          <div className="hidden">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 flex items-center justify-center p-2.5 shadow-xs shrink-0">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 flex items-center justify-center p-2.5 shadow-xs shrink-0">
                 <img src={favicon} alt="" className="w-8 h-8 object-contain" />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                <h1 className="text-xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
                   {tool.name}
                 </h1>
                 <div className="flex items-center gap-2 mt-1.5">
@@ -175,18 +235,15 @@ export default async function ToolPage({ params }: ToolPageProps) {
           </div>
 
           {/* Details 2-Column Split Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 items-start w-full">
-            {/* Left Side (Spans 8 cols) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 mb-16 items-start w-full">
+            {/* Left Side */}
             <div className="lg:col-span-8 space-y-8">
               {/* ABOUT Section */}
               <div>
                 <div className="text-[11px] font-bold tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-3">
                   ABOUT
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3">
-                  {tool.name}
-                </h2>
-                <p className="text-base text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
+                <p className="text-lg sm:text-xl text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed tracking-tight max-w-3xl">
                   {tool.description || `Curated resource and design engineering reference for ${tool.name}.`}
                 </p>
               </div>
@@ -211,14 +268,14 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 </div>
               </div>
 
-              {/* WHERE [TOOL NAME] APPEARS section */}
+              {/* WHERE APPEARS */}
               <div className="pt-2">
                 <div className="text-[11px] font-bold tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-4">
                   WHERE {tool.name.toUpperCase()} APPEARS
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <a
-                    href="#"
+                  <Link
+                    href={`/?category=${encodeURIComponent(tool.category)}`}
                     className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition flex items-center justify-between group"
                   >
                     <div>
@@ -230,10 +287,10 @@ export default async function ToolPage({ params }: ToolPageProps) {
                       </div>
                     </div>
                     <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition" />
-                  </a>
+                  </Link>
 
-                  <a
-                    href="#"
+                  <Link
+                    href="/"
                     className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition flex items-center justify-between group"
                   >
                     <div>
@@ -245,7 +302,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                       </div>
                     </div>
                     <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition" />
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -271,8 +328,8 @@ export default async function ToolPage({ params }: ToolPageProps) {
               </div>
             </div>
 
-            {/* Right Side (Spans 4 cols) - Metadata Specs Card */}
-            <div className="lg:col-span-4 bg-[#f8f8fa] dark:bg-[#141417] p-6 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 space-y-4">
+            {/* Right Side */}
+            <div className="lg:col-span-4 lg:sticky lg:top-24 bg-[#f8f8fa] dark:bg-[#141417] p-5 sm:p-6 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 space-y-4">
               <div>
                 <div className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
                   PRICING
@@ -316,7 +373,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
             </div>
           </div>
 
-          {/* Related Tools Grid - 4 Cards per row */}
+          {/* Related Tools Grid */}
           {relatedTools.length > 0 && (
             <div className="mb-12 w-full">
               <div className="flex items-center justify-between mb-6">
