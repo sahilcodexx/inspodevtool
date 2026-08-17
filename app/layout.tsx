@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Geist } from "next/font/google";
+import { Inter, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -7,7 +7,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppwritePing } from "@/app/components/appwrite-ping";
 import { AuthProvider } from "@/lib/auth-context";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,7 +38,13 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", inter.variable, "font-sans", geist.variable)}
+      className={cn(
+        "antialiased",
+        inter.variable,
+        "font-sans",
+        geist.variable,
+        geistMono.variable
+      )}
     >
       <head>
         <script
