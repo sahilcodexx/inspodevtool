@@ -1,4 +1,4 @@
-import type { Tool } from "../data";
+import type { Tool } from "@/lib/tools";
 import { ToolIcon } from "./tool-icons";
 
 export function ToolLink({ tool }: { tool: Tool }) {

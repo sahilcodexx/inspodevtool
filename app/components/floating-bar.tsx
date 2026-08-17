@@ -18,7 +18,7 @@ export function FloatingBar({
   onSearchChange,
   selectedCategory = "All",
   onCategoryChange,
-  categories = ["All", "Design & UI", "Inspiration", "Portfolios", "Useful Tools"],
+  categories = ["All", "Components & UI", "Inspiration", "Icons & Assets", "Dev Tools", "Portfolios"],
 }: FloatingBarProps) {
   const router = useRouter();
   const [internalSearch, setInternalSearch] = useState<string>(searchQuery);

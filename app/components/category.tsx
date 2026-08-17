@@ -1,4 +1,4 @@
-import type { Tool } from "../data";
+import type { Tool } from "@/lib/tools";
 import { ToolLink } from "./tool-link";
 
 interface CategoryProps {
