@@ -23,11 +23,11 @@ export interface MenuItem {
 }
 
 export interface UserDropdownUser {
-  name: string;
-  username: string;
-  avatar: string;
-  initials: string;
-  status: string;
+  name?: string;
+  username?: string;
+  avatar?: string;
+  initials?: string;
+  status?: string;
 }
 
 export interface UserDropdownProps {
@@ -35,6 +35,9 @@ export interface UserDropdownProps {
   onAction?: (action?: string) => void;
   onStatusChange?: (status: string) => void;
   selectedStatus?: string;
+  promoDiscount?: string;
+  accounts?: any[];
+  trigger?: React.ReactNode;
 }
 
 const MENU_ITEMS: MenuItem[] = [
@@ -59,7 +62,7 @@ const LOGOUT_ITEM: MenuItem = {
   action: "logout",
 };
 
-export const UserDropdown = ({
+export const UserDropdown: React.FC<UserDropdownProps> = ({
   user = {
     name: "Sahil Singh",
     username: "@sahilcodex",
@@ -68,7 +71,8 @@ export const UserDropdown = ({
     status: "online",
   },
   onAction = () => {},
-}: UserDropdownProps) => {
+  trigger,
+}) => {
   const renderMenuItem = (item: MenuItem, index: number) => (
     <DropdownMenuItem
       key={index}
@@ -94,7 +98,7 @@ export const UserDropdown = ({
     </DropdownMenuItem>
   );
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string = "online") => {
     const colors: Record<string, string> = {
       online:
         "text-green-600 bg-green-100 border-green-300 dark:text-green-400 dark:bg-green-900/30 dark:border-green-500/50",
@@ -109,10 +113,14 @@ export const UserDropdown = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer size-10 border border-white dark:border-gray-700">
-          <AvatarImage src={user.avatar} alt={user.name} />
-          <AvatarFallback>{user.initials}</AvatarFallback>
-        </Avatar>
+        {trigger ? (
+          trigger
+        ) : (
+          <Avatar className="cursor-pointer size-10 border border-white dark:border-gray-700">
+            <AvatarImage src={user.avatar} alt={user.name} />
+            <AvatarFallback>{user.initials}</AvatarFallback>
+          </Avatar>
+        )}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
@@ -121,25 +129,29 @@ export const UserDropdown = ({
       >
         <section className="bg-white dark:bg-zinc-900/90 backdrop-blur-lg rounded-2xl p-1 shadow border border-gray-200 dark:border-gray-700/40">
           <div className="flex items-center p-2">
-            <div className="flex-1 flex items-center gap-2">
-              <Avatar className="cursor-pointer size-10 border border-white dark:border-gray-700">
+            <div className="flex-1 flex items-center gap-2 min-w-0">
+              <Avatar className="cursor-pointer size-10 border border-white dark:border-gray-700 shrink-0">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback>{user.initials}</AvatarFallback>
               </Avatar>
-              <div>
-                <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 truncate">
                   {user.name}
                 </h3>
-                <p className="text-muted-foreground text-xs">{user.username}</p>
+                <p className="text-muted-foreground text-xs truncate">
+                  {user.username}
+                </p>
               </div>
             </div>
-            <Badge
-              className={`${getStatusColor(
-                user.status
-              )} border-[0.5px] text-[11px] rounded-sm capitalize`}
-            >
-              {user.status}
-            </Badge>
+            {user.status && (
+              <Badge
+                className={`${getStatusColor(
+                  user.status
+                )} border-[0.5px] text-[11px] rounded-sm capitalize shrink-0 ml-2`}
+              >
+                {user.status}
+              </Badge>
+            )}
           </div>
 
           <DropdownMenuSeparator />
