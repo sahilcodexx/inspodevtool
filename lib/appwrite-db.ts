@@ -47,6 +47,7 @@ export async function createToolInDatabase(tool: Omit<Tool, "id">, ownerId: stri
       ogimage: ogImage,
       logo: tool.logo || "",
       createdBy: ownerId,
+      ...(tool.features && tool.features.length > 0 ? { features: tool.features } : {}),
     };
     const existing = await databases.listDocuments(
       APPWRITE_DATABASE_ID,

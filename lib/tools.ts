@@ -10,6 +10,7 @@ export type Tool = {
   ogImage?: string;
   logo?: string;
   ownerId?: string;
+  features?: string[];
 };
 
 export const CATEGORY_SUGGESTIONS = [
@@ -46,7 +47,22 @@ type AppwriteDocument = {
   ogimage?: string;
   logo?: string;
   createdBy?: string;
+  features?: string[] | string;
 };
+
+export function parseFeatures(raw?: string[] | string): string[] {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.filter(Boolean);
+  if (typeof raw === "string") {
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.filter(Boolean);
+    } catch {
+      return raw.split(/\r?\n|;/).map((s) => s.trim()).filter(Boolean);
+    }
+  }
+  return [];
+}
 
 export function mapToolDocument(document: AppwriteDocument): Tool | null {
   if (!document.url || !(document.title || document.name) || !document.category) return null;
@@ -59,6 +75,7 @@ export function mapToolDocument(document: AppwriteDocument): Tool | null {
     ogImage: document.ogImage || document.ogimage || "",
     logo: document.logo || "",
     ownerId: document.createdBy || "",
+    features: parseFeatures(document.features),
   };
 }
 
