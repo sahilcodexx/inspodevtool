@@ -61,7 +61,7 @@ export function SidebarNav({
   return (
     <>
       <aside
-        className={`shrink-0 flex flex-col border-r border-zinc-200/70 dark:border-zinc-800/80 bg-[#fafafa] dark:bg-[#171717] min-h-screen text-zinc-800 dark:text-zinc-200 select-none sticky top-0 h-screen overflow-y-auto transition-all duration-300 ease-in-out ${
+        className={`hidden md:flex shrink-0 flex-col border-r border-zinc-200/70 dark:border-zinc-800/80 bg-[#fafafa] dark:bg-[#171717] min-h-screen text-zinc-800 dark:text-zinc-200 select-none sticky top-0 h-screen overflow-y-auto transition-all duration-300 ease-in-out ${
           isCollapsed ? "w-16 p-2.5" : "w-60 p-4"
         }`}
       >
