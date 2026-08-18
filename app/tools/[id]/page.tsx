@@ -6,6 +6,7 @@ import { Navbar } from "../../components/navbar";
 import { ToolCard } from "../../components/tool-card";
 import { Footer } from "../../components/footer";
 import { FloatingBar } from "../../components/floating-bar";
+import { DeleteToolButton } from "../../components/delete-tool-button";
 import { ArrowUpRight } from "lucide-react";
 import { getImageProxyUrl } from "@/lib/tools";
 import {
@@ -84,10 +85,13 @@ export default async function ToolPage({ params }: ToolPageProps) {
   const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
   const relatedTools = tools.filter((t) => t.category === tool.category && t.id !== tool.id).slice(0, 8);
   const categorySize = tools.filter((t) => t.category === tool.category).length;
-  const features = getCategoryFeatures(tool.category, tool.name);
+  const features =
+    tool.features && tool.features.length > 0
+      ? tool.features
+      : getCategoryFeatures(tool.category, tool.name);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-row w-full transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-[#0c0c0e] text-zinc-900 dark:text-zinc-100 flex flex-row w-full transition-colors duration-200">
       {/* Left Sidebar */}
       <Sidebar selectedCategory={tool.category} categories={["All", ...Array.from(new Set(tools.map((item) => item.category))).sort()]} />
 
@@ -124,21 +128,24 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{domain}</p>
               </div>
             </div>
-            <Button render={<a href={tool.url} target="_blank" rel="noopener noreferrer" />} size="lg" className="rounded-full px-4 text-xs">
-              Visit website <ArrowUpRight className="size-3.5" />
-            </Button>
+            <div className="flex items-center gap-2.5">
+              <DeleteToolButton toolId={tool.id} ownerId={tool.ownerId} />
+              <Button render={<a href={tool.url} target="_blank" rel="noopener noreferrer" />} size="lg" className="rounded-full px-4 text-xs">
+                Visit website <ArrowUpRight className="size-3.5" />
+              </Button>
+            </div>
           </div>
 
           <Separator className="mb-6" />
 
           <div className="grid grid-cols-1 gap-6 border-b border-dashed border-zinc-200/60 pb-8 dark:border-zinc-800/70 lg:grid-cols-[minmax(0,1fr)_240px] items-start mb-8">
           {/* Preview image */}
-          <div className="group relative aspect-video max-h-[640px] w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100 dark:bg-[#121215] shadow-sm flex items-center justify-center">
+          <div className="group relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100/50 dark:bg-zinc-900/30 shadow-md">
             {tool.ogImage ? (
               <img
                 src={getImageProxyUrl(tool.ogImage, tool.url)}
                 alt={`${tool.name} preview`}
-                className="w-full h-full object-contain rounded-2xl transition-transform duration-300 ease-out"
+                className="w-full h-auto max-h-[720px] object-contain rounded-2xl sm:rounded-3xl transition-transform duration-300 ease-out group-hover:scale-[1.005]"
               />
             ) : (
               <div className="p-8 text-center flex flex-col items-center justify-center w-full h-full">
@@ -233,8 +240,15 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 
                 <div className="grid grid-cols-1 text-sm font-normal text-zinc-600 dark:text-zinc-300 sm:grid-cols-2">
                   {features.map((feat, idx) => (
-                    <div key={idx} className={`flex items-start gap-3 border-b border-dashed border-zinc-200/70 px-4 py-3.5 dark:border-zinc-800/80 ${idx < 2 ? "border-t" : ""} ${idx === features.length - 1 ? "sm:col-span-2" : idx % 2 === 0 ? "sm:border-r" : ""}`}>
-                      <span className="mt-0.5 font-mono text-sm text-zinc-400">{String(idx + 1).padStart(2, "0")}</span>
+                    <div
+                      key={idx}
+                      className={`flex items-start gap-3 border-b border-dashed border-zinc-200/70 px-4 py-3.5 dark:border-zinc-800/80 ${
+                        idx < 2 ? "border-t" : ""
+                      } ${idx % 2 === 0 ? "sm:border-r" : ""}`}
+                    >
+                      <span className="mt-0.5 font-mono text-sm text-zinc-400 shrink-0">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
                       <span className="leading-relaxed">{feat}</span>
                     </div>
                   ))}
@@ -244,79 +258,24 @@ export default async function ToolPage({ params }: ToolPageProps) {
                   Site domain: {domain}
                 </div>
               </div>
-
-              {/* WHERE APPEARS */}
-              <div className="pt-2">
-                <div className="text-[11px] font-bold tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-4">
-                  WHERE {tool.name.toUpperCase()} APPEARS
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Link
-                    href={`/?category=${encodeURIComponent(tool.category)}`}
-                    className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition flex items-center justify-between group"
-                  >
-                    <div>
-                      <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-black dark:group-hover:text-white">
-                        Top {tool.category} Tools
-                      </div>
-                      <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-                        One of {categorySize} tools in {tool.category}
-                      </div>
-                    </div>
-                    <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition" />
-                  </Link>
-
-                  <Link
-                    href="/"
-                    className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition flex items-center justify-between group"
-                  >
-                    <div>
-                      <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-black dark:group-hover:text-white">
-                        Design Engineer Directory
-                      </div>
-                      <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-                        Official Curated Bookmark
-                      </div>
-                    </div>
-                    <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition" />
-                  </Link>
-                </div>
-              </div>
-
-              {/* Ready to try CTA box */}
-              <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200/60 dark:border-zinc-800/60 flex flex-wrap items-center justify-between gap-4 mt-6">
-                <div>
-                  <div className="font-bold text-sm text-zinc-900 dark:text-zinc-100">
-                    Ready to visit {tool.name}?
-                  </div>
-                  <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 font-mono">
-                    Opens {domain} directly.
-                  </div>
-                </div>
-                <a
-                  href={tool.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 font-semibold text-xs rounded-full transition shadow-xs flex items-center gap-1.5 cursor-pointer"
-                >
-                  <span>Visit website</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
             </div>
-
           </div>
 
           {/* Related Tools Grid */}
           {relatedTools.length > 0 && (
-            <div className="mb-12 w-full">
+            <div className="mb-12 pt-8 border-t border-dashed border-zinc-200/70 dark:border-zinc-800/70 w-full">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                  Related {tool.category} Tools
-                </h2>
+                <div>
+                  <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    More in {tool.category}
+                  </h2>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                    Discover related tools and references in this category.
+                  </p>
+                </div>
                 <Link
                   href={`/?category=${encodeURIComponent(tool.category)}`}
-                  className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white"
+                  className="text-xs font-semibold text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition"
                 >
                   Browse all {categorySize} →
                 </Link>
