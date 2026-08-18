@@ -1,14 +1,26 @@
 import React from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 
 export default function WhatsNewPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-col w-full">
+    <div className="min-h-screen bg-white dark:bg-[#0c0c0e] text-zinc-900 dark:text-zinc-100 flex flex-col w-full">
       <Navbar />
 
-      <main className="flex-1 w-full flex flex-col items-center px-6 py-12 sm:py-16">
+      <main className="flex-1 w-full flex flex-col items-center px-6 py-10 sm:py-14">
         <div className="typeset typeset-changelog max-w-[37em] w-full mx-auto">
+          <div className="mb-6 not-prose">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Back to Home
+            </Link>
+          </div>
+
           <h1>Changelog</h1>
 
           <h2>v1.2.0</h2>
