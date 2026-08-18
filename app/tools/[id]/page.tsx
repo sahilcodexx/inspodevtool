@@ -6,8 +6,18 @@ import { Navbar } from "../../components/navbar";
 import { ToolCard } from "../../components/tool-card";
 import { Footer } from "../../components/footer";
 import { FloatingBar } from "../../components/floating-bar";
-import { ArrowUpRight, Bookmark, Flag, Share2 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { getImageProxyUrl } from "@/lib/tools";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbList,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 interface ToolPageProps {
   params: Promise<{
@@ -86,24 +96,23 @@ export default async function ToolPage({ params }: ToolPageProps) {
         {/* Top Navbar */}
         <Navbar />
 
-        <main className="w-full max-w-[82rem] px-5 sm:px-8 lg:px-10 pt-6 pb-32 flex flex-col min-w-0 mx-auto">
-          {/* Top Breadcrumb */}
-          <div className="flex items-center justify-between gap-4 mb-4 text-xs text-zinc-500 dark:text-zinc-400 w-full">
-            <div className="flex items-center gap-1.5 overflow-x-auto">
-              <Link href="/" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition">
-                Home
-              </Link>
-              <span>/</span>
-              <Link href={`/?category=${encodeURIComponent(tool.category)}`} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition">
-                {tool.category}
-              </Link>
-              <span>/</span>
-              <span className="text-zinc-900 dark:text-zinc-100 font-medium">{tool.name}</span>
-            </div>
-          </div>
+        <main className="relative w-full max-w-[82rem] border-x border-dashed border-zinc-200/50 px-5 pt-6 pb-32 sm:px-8 lg:px-10 dark:border-zinc-800/50 flex flex-col min-w-0 mx-auto">
+          <Breadcrumb className="mb-6">
+            <BreadcrumbList className="text-xs">
+              <BreadcrumbItem>
+                <BreadcrumbLink render={<Link href="/" />}>Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink render={<Link href={`/?category=${encodeURIComponent(tool.category)}`} />}>{tool.category}</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem><BreadcrumbPage>{tool.name}</BreadcrumbPage></BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
 
           {/* Tool identity and section navigation */}
-          <div className="flex flex-wrap items-end justify-between gap-5 border-b border-zinc-200/60 dark:border-zinc-800/80 pb-4 mb-5">
+          <div className="flex flex-wrap items-end justify-between gap-5 border-b border-dashed border-zinc-200/60 pb-5 dark:border-zinc-800/70">
             <div className="flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 flex items-center justify-center p-2 shadow-xs shrink-0">
                 <img src={favicon} alt="" className="w-7 h-7 object-contain" />
@@ -115,30 +124,21 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{domain}</p>
               </div>
             </div>
-            <a
-              href={tool.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-semibold flex items-center gap-2 hover:bg-zinc-700 dark:hover:bg-white active:scale-[0.98] transition duration-150"
-            >
-              Visit website <ArrowUpRight className="w-3.5 h-3.5" />
-            </a>
+            <Button render={<a href={tool.url} target="_blank" rel="noopener noreferrer" />} size="lg" className="rounded-full px-4 text-xs">
+              Visit website <ArrowUpRight className="size-3.5" />
+            </Button>
           </div>
 
-          <div className="flex items-center gap-5 border-b border-zinc-200/60 dark:border-zinc-800/80 mb-6 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            <span className="relative pb-3 text-zinc-900 dark:text-zinc-100 after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-zinc-900 dark:after:bg-zinc-100">Overview</span>
-            <span className="pb-3">Details</span>
-            <span className="pb-3">Related tools</span>
-          </div>
+          <Separator className="mb-6" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_220px] gap-6 items-start mb-8">
+          <div className="grid grid-cols-1 gap-6 border-b border-dashed border-zinc-200/60 pb-8 dark:border-zinc-800/70 lg:grid-cols-[minmax(0,1fr)_240px] items-start mb-8">
           {/* Preview image */}
-          <div className="group relative aspect-[2.05/1] max-h-[440px] w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100 dark:bg-[#121215] shadow-xs flex items-center justify-center">
+          <div className="group relative aspect-video max-h-[640px] w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100 dark:bg-[#121215] shadow-sm flex items-center justify-center">
             {tool.ogImage ? (
               <img
                 src={getImageProxyUrl(tool.ogImage, tool.url)}
                 alt={`${tool.name} preview`}
-                className="w-full h-full object-cover rounded-2xl group-hover:scale-[1.012] transition-transform duration-300 ease-out"
+                className="w-full h-full object-contain rounded-2xl transition-transform duration-300 ease-out"
               />
             ) : (
               <div className="p-8 text-center flex flex-col items-center justify-center w-full h-full">
@@ -164,80 +164,57 @@ export default async function ToolPage({ params }: ToolPageProps) {
             </div>
           </div>
 
-          <aside className="hidden lg:block border-l border-zinc-200/60 dark:border-zinc-800/80 pl-5 text-xs">
-            <div className="space-y-1">
-              <button type="button" className="w-full flex items-center gap-2.5 py-2 text-left text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
-                <Bookmark className="w-3.5 h-3.5" /> Add to collection
-              </button>
-              <button type="button" className="w-full flex items-center gap-2.5 py-2 text-left text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
-                <Share2 className="w-3.5 h-3.5" /> Share
-              </button>
-              <button type="button" className="w-full flex items-center gap-2.5 py-2 text-left text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
-                <Flag className="w-3.5 h-3.5" /> Report a problem
-              </button>
-            </div>
-            <div className="mt-7 pt-5 border-t border-zinc-200/60 dark:border-zinc-800/80">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">Similar tools</p>
-              <div className="space-y-2.5">
+          <aside className="hidden border-x border-zinc-200/70 px-5 text-xs dark:border-zinc-800/80 lg:block">
+            <div>
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400 dark:text-zinc-500">Similar tools</p>
+                <span className="text-zinc-400" aria-hidden="true">↻</span>
+              </div>
+              <div className="space-y-1">
                 {relatedTools.slice(0, 4).map((related) => (
-                  <Link key={related.id} href={`/tools/${related.id}`} className="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition">
-                    <span className="w-5 h-5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center overflow-hidden shrink-0">
-                      <img src={`https://www.google.com/s2/favicons?domain=${new URL(related.url).hostname}&sz=32`} alt="" className="w-3.5 h-3.5" />
+                  <Link key={related.id} href={`/tools/${related.id}`} className="group/link flex items-center gap-2.5 rounded-lg px-2 py-2 text-zinc-600 transition hover:bg-zinc-200/60 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white">
+                    <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-md border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+                      <img src={`https://www.google.com/s2/favicons?domain=${new URL(related.url).hostname}&sz=32`} alt="" className="size-3.5" />
                     </span>
-                    <span className="truncate">{related.name}</span>
+                    <span className="min-w-0 truncate font-medium">{related.name}</span>
+                    <ArrowUpRight className="ml-auto size-3 shrink-0 opacity-0 transition-opacity group-hover/link:opacity-60" />
                   </Link>
                 ))}
               </div>
             </div>
+
+            <div className="mt-8 border-t border-zinc-200/70 pt-5 dark:border-zinc-800/80">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400 dark:text-zinc-500">Tool details</p>
+                <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+              </div>
+              <dl className="divide-y divide-dashed divide-zinc-200/80 dark:divide-zinc-800/80">
+                <div className="py-4 first:pt-0">
+                  <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400 dark:text-zinc-500">Pricing</dt>
+                  <dd className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">Freemium</dd>
+                </div>
+                <div className="py-4">
+                  <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400 dark:text-zinc-500">Category</dt>
+                  <dd className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">{tool.category}</dd>
+                </div>
+                <div className="py-4">
+                  <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400 dark:text-zinc-500">Category size</dt>
+                  <dd className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">{categorySize} tools</dd>
+                </div>
+                <div className="pt-4">
+                  <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400 dark:text-zinc-500">Website</dt>
+                  <dd className="mt-1 truncate font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
+                    <a href={tool.url} target="_blank" rel="noopener noreferrer" className="hover:underline">{domain}</a>
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </aside>
           </div>
 
-          {/* Tool Header & Action Buttons */}
-          <div className="hidden">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 flex items-center justify-center p-2.5 shadow-xs shrink-0">
-                <img src={favicon} alt="" className="w-8 h-8 object-contain" />
-              </div>
-              <div>
-                <h1 className="text-xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                  {tool.name}
-                </h1>
-                <div className="flex items-center gap-2 mt-1.5">
-                  <span className="text-xs text-zinc-500 dark:text-zinc-400">{tool.category}</span>
-                  <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 font-medium">
-                    Freemium
-                  </span>
-                  <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 font-medium">
-                    In {tool.category}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <a
-                href={tool.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 font-semibold text-sm rounded-full transition shadow-xs flex items-center gap-2 cursor-pointer"
-              >
-                <span>Visit website</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
-              <button
-                type="button"
-                className="w-10 h-10 rounded-full border border-zinc-200 dark:border-zinc-700/80 flex items-center justify-center text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition cursor-pointer"
-                title="Bookmark tool"
-              >
-                <Bookmark className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Details 2-Column Split Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 mb-16 items-start w-full">
-            {/* Left Side */}
-            <div className="lg:col-span-8 space-y-8">
+          {/* Editorial details section */}
+          <div className="mb-12 w-full">
+            <div className="space-y-6">
               {/* ABOUT Section */}
               <div>
                 <div className="text-[11px] font-bold tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-3">
@@ -254,11 +231,11 @@ export default async function ToolPage({ params }: ToolPageProps) {
                   FEATURES & USE CASES
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3.5 gap-x-8 text-sm font-normal text-zinc-600 dark:text-zinc-300">
+                <div className="grid grid-cols-1 text-sm font-normal text-zinc-600 dark:text-zinc-300 sm:grid-cols-2">
                   {features.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <span className="text-zinc-400 font-mono text-sm">›</span>
-                      <span>{feat}</span>
+                    <div key={idx} className={`flex items-start gap-3 border-b border-dashed border-zinc-200/70 px-4 py-3.5 dark:border-zinc-800/80 ${idx < 2 ? "border-t" : ""} ${idx === features.length - 1 ? "sm:col-span-2" : idx % 2 === 0 ? "sm:border-r" : ""}`}>
+                      <span className="mt-0.5 font-mono text-sm text-zinc-400">{String(idx + 1).padStart(2, "0")}</span>
+                      <span className="leading-relaxed">{feat}</span>
                     </div>
                   ))}
                 </div>
@@ -328,49 +305,6 @@ export default async function ToolPage({ params }: ToolPageProps) {
               </div>
             </div>
 
-            {/* Right Side */}
-            <div className="lg:col-span-4 lg:sticky lg:top-24 bg-[#f8f8fa] dark:bg-[#141417] p-5 sm:p-6 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 space-y-4">
-              <div>
-                <div className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
-                  PRICING
-                </div>
-                <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1">
-                  Freemium
-                </div>
-              </div>
-
-              <div className="pt-3.5 border-t border-zinc-200/60 dark:border-zinc-800/60">
-                <div className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
-                  CATEGORY
-                </div>
-                <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1">
-                  {tool.category}
-                </div>
-              </div>
-
-              <div className="pt-3.5 border-t border-zinc-200/60 dark:border-zinc-800/60">
-                <div className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
-                  CATEGORY SIZE
-                </div>
-                <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1">
-                  {categorySize} tools
-                </div>
-              </div>
-
-              <div className="pt-3.5 border-t border-zinc-200/60 dark:border-zinc-800/60">
-                <div className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
-                  WEBSITE
-                </div>
-                <a
-                  href={tool.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 hover:underline mt-1 block truncate font-mono"
-                >
-                  {domain}
-                </a>
-              </div>
-            </div>
           </div>
 
           {/* Related Tools Grid */}
@@ -400,8 +334,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
         </main>
       </div>
 
-      {/* Floating Pill Bar */}
-      <FloatingBar selectedCategory={tool.category} />
+      <FloatingBar />
     </div>
   );
 }

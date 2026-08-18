@@ -8,6 +8,8 @@ import { Navbar } from "@/app/components/navbar";
 import { useAuth } from "@/lib/auth-context";
 import { getCategories, getImageProxyUrl, getToolsForOwner, type Tool } from "@/lib/tools";
 import { deleteToolFromDatabase, refreshToolOgImage, updateToolInDatabase } from "@/lib/appwrite-db";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
@@ -53,7 +55,24 @@ export default function DashboardPage() {
   }
 
   if (authLoading) return <div className="min-h-screen bg-[#09090b]" />;
-  if (!user) return <main className="min-h-screen bg-[#09090b] text-zinc-100 grid place-items-center px-6 text-center"><div><p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Creator dashboard</p><h1 className="mt-3 text-2xl font-semibold">Sign in to manage your tools</h1><Link href="/signup?mode=signin" className="mt-6 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black">Sign in</Link></div></main>;
+  if (!user) return (
+    <main className="flex min-h-screen w-full items-center justify-center bg-[#09090b] px-6 py-12 text-zinc-100">
+      <Card className="w-full max-w-md border-zinc-800/80 bg-zinc-950/80 py-8 text-center shadow-2xl shadow-black/20 sm:py-10">
+        <Link href="/" className="mb-10 inline-flex items-center gap-2 text-xs text-zinc-500 transition hover:text-zinc-200">
+          <ArrowLeft className="size-3.5" /> Back to directory
+        </Link>
+        <div className="mx-auto grid size-12 place-items-center rounded-2xl border border-zinc-800 bg-zinc-900 text-lg font-semibold text-zinc-200">D</div>
+        <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500">Creator dashboard</p>
+        <CardHeader className="px-8">
+          <CardTitle className="text-2xl tracking-tight">Sign in to manage your tools</CardTitle>
+          <CardDescription className="mx-auto max-w-xs leading-6 text-zinc-500">Submit, edit, refresh, and manage the tools you have shared with the directory.</CardDescription>
+        </CardHeader>
+        <CardContent className="px-8">
+          <Button render={<Link href="/signup?mode=signin" />} className="rounded-full px-5">Sign in</Button>
+        </CardContent>
+      </Card>
+    </main>
+  );
 
   return (
     <div className="flex min-h-screen w-full min-w-0 bg-white text-zinc-900 dark:bg-[#09090b] dark:text-zinc-100">

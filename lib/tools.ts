@@ -12,6 +12,19 @@ export type Tool = {
   ownerId?: string;
 };
 
+export const CATEGORY_SUGGESTIONS = [
+  "AI & Automation",
+  "Resources & Learning",
+  "Productivity",
+  "Marketing & Business",
+  "No-Code & Workflow",
+  "Motion & Animation",
+  "Websites & Showcases",
+  "General & Miscellaneous",
+] as const;
+
+export const DEFAULT_CATEGORY = "General & Miscellaneous";
+
 export function getImageProxyUrl(imageUrl?: string, baseUrl?: string) {
   if (!imageUrl) return "";
   try {
@@ -80,4 +93,11 @@ export async function getToolsFromDatabase(category?: string): Promise<Tool[]> {
 
 export function getCategories(tools: Tool[]) {
   return ["All", ...Array.from(new Set(tools.map((tool) => tool.category))).sort()];
+}
+
+export function getCategoryOptions(tools: Tool[]) {
+  return Array.from(new Set([
+    ...tools.map((tool) => tool.category),
+    ...CATEGORY_SUGGESTIONS,
+  ])).sort((a, b) => a.localeCompare(b));
 }
