@@ -219,6 +219,28 @@ export default async function ToolPage({ params }: ToolPageProps) {
           </aside>
           </div>
 
+          {/* Mobile & Tablet Tool Details Bar (< lg) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 lg:hidden mb-8">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Pricing</div>
+              <div className="mt-1 text-xs font-semibold text-zinc-900 dark:text-zinc-100">Freemium</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Category</div>
+              <div className="mt-1 text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate">{tool.category}</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Category size</div>
+              <div className="mt-1 text-xs font-semibold text-zinc-900 dark:text-zinc-100">{categorySize} tools</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Website</div>
+              <a href={tool.url} target="_blank" rel="noopener noreferrer" className="mt-1 text-xs font-semibold font-mono text-zinc-900 dark:text-zinc-100 truncate block hover:underline">
+                {domain}
+              </a>
+            </div>
+          </div>
+
           {/* Editorial details section */}
           <div className="mb-12 w-full">
             <div className="space-y-6">
