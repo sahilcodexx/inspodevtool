@@ -104,14 +104,14 @@ const GlassButton = forwardRef<HTMLButtonElement, GlassButtonProps>(
 );
 GlassButton.displayName = "GlassButton";
 
-// --- BANNER IMAGE BACKGROUND WITH DARK MODE GRAYSCALE ---
+// --- BANNER IMAGE BACKGROUND WITH BALANCED DARK MODE ---
 const BannerBackground = () => (
   <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none">
-    {/* Banner Background Image with Grayscale & Brightness Adjustment in Dark Mode */}
-    <div className="absolute inset-0 bg-[url('/banner.png')] bg-cover bg-center transition-all duration-300 dark:grayscale dark:brightness-[0.4] dark:contrast-125 opacity-90 dark:opacity-60" />
+    {/* Banner Background Image - Atmospheric Dark Mode Tuning */}
+    <div className="absolute inset-0 bg-[url('/banner.webp')] bg-cover bg-center transition-all duration-300 opacity-90 dark:opacity-75 dark:brightness-[0.55] dark:contrast-110 dark:grayscale-[30%]" />
 
-    {/* Subtle Readability Layer */}
-    <div className="absolute inset-0 bg-[#fbf9f5]/70 dark:bg-[#0c0c0e]/80 backdrop-blur-[1px] transition-colors duration-300" />
+    {/* Balanced Readability Layer */}
+    <div className="absolute inset-0 bg-[#fbf9f5]/55 dark:bg-[#0c0c0e]/60 backdrop-blur-[1px] transition-colors duration-300" />
   </div>
 );
 
