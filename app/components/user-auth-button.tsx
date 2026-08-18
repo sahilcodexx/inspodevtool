@@ -3,109 +3,119 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
-import { LogOut, LogIn, UserPlus, ChevronDown, LayoutDashboard } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { avatars } from "@/lib/appwrite";
+import { UserDropdown } from "@/components/ui/user-dropdown";
+import { useRouter } from "next/navigation";
+import { applyTheme } from "./theme-switcher";
 
 export function UserAuthButton() {
   const { user, loading, signOut } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [userStatus, setUserStatus] = useState("online");
+  const router = useRouter();
 
   if (loading) {
     return (
-      <div className="w-8 h-8 rounded-full bg-zinc-200/60 dark:bg-zinc-800/60 animate-pulse" />
+      <div className="w-10 h-10 rounded-full bg-zinc-200/60 dark:bg-zinc-800/60 animate-pulse" />
     );
   }
+
+  const handleAction = (action?: string) => {
+    if (!action) return;
+    switch (action) {
+      case "portfolio":
+        window.open("https://sahilcodex.vercel.app", "_blank", "noopener,noreferrer");
+        break;
+      case "github":
+        window.open("https://github.com/sahilcodexx", "_blank", "noopener,noreferrer");
+        break;
+      case "twitter":
+        window.open("https://x.com/sahilcodex", "_blank", "noopener,noreferrer");
+        break;
+      case "linkedin":
+        window.open("https://www.linkedin.com/in/sahil-singh-tech/", "_blank", "noopener,noreferrer");
+        break;
+      case "appearance":
+        const isDark = document.documentElement.classList.contains("dark");
+        applyTheme(isDark ? "light" : "dark");
+        break;
+      case "whats-new":
+        router.push("/whats-new");
+        break;
+      case "help":
+        router.push("/help");
+        break;
+      case "profile":
+      case "settings":
+      case "switch":
+        router.push("/dashboard");
+        break;
+      case "logout":
+        if (user) {
+          signOut();
+        }
+        router.push("/signup?mode=signin");
+        break;
+      default:
+        break;
+    }
+  };
 
   if (user) {
     const avatarUrl =
       user.prefs?.avatar ||
       avatars.getInitials(user.name || user.email, 100, 100).toString();
 
-    const userInitial = (user.name || user.email || "U")[0].toUpperCase();
+    const userInitials = (user.name || user.email || "U")
+      .split(" ")
+      .map((n: string) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+
+    const userData = {
+      name: user.name || "User",
+      username: `@${user.email ? user.email.split("@")[0] : "user"}`,
+      avatar: avatarUrl,
+      initials: userInitials,
+      status: userStatus,
+    };
 
     return (
-      <div className="relative">
-        <button
-          type="button"
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="flex items-center gap-2.5 p-1 pl-2 rounded-full border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 text-xs font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition cursor-pointer shadow-xs"
-        >
-          <div className="relative w-8 h-8 rounded-full overflow-hidden bg-zinc-700 text-white flex items-center justify-center font-semibold text-xs shrink-0">
-            <img
-              src={avatarUrl}
-              alt={user.name || "User Profile"}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = "none";
-              }}
-            />
-            <span className="absolute inset-0 flex items-center justify-center bg-zinc-800 text-white font-bold text-xs -z-10">
-              {userInitial}
-            </span>
-          </div>
-          <span className="hidden sm:inline font-semibold text-xs text-zinc-800 dark:text-zinc-200 max-w-[120px] truncate">
-            {user.name || user.email.split("@")[0]}
-          </span>
-          <ChevronDown className="w-3.5 h-3.5 text-zinc-400 mr-1" />
-        </button>
-
-        {menuOpen && (
-          <div
-            className="absolute right-0 mt-2 w-52 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 py-1.5 z-50 text-xs animate-in fade-in slide-in-from-top-1 duration-150"
-            onClick={() => setMenuOpen(false)}
-          >
-            <div className="px-3 py-2 border-b border-zinc-100 dark:border-zinc-800 flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full overflow-hidden bg-zinc-700 text-white flex items-center justify-center font-semibold text-xs shrink-0">
-                <img
-                  src={avatarUrl}
-                  alt={user.name || "User Profile"}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <p className="font-semibold text-zinc-900 dark:text-zinc-100 truncate">
-                  {user.name || "User"}
-                </p>
-                <p className="text-zinc-500 dark:text-zinc-400 text-[11px] truncate">
-                  {user.email}
-                </p>
-              </div>
-            </div>
-
-            <Link href="/dashboard" className="flex items-center gap-2 px-3 py-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition font-medium">
-              <LayoutDashboard className="w-3.5 h-3.5" /> My tools
-            </Link>
-
-            <button
-              onClick={() => signOut()}
-              className="w-full text-left px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center gap-2 transition cursor-pointer font-medium mt-1"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              Sign Out
-            </button>
-          </div>
-        )}
-      </div>
+      <UserDropdown
+        user={userData}
+        selectedStatus={userStatus}
+        onStatusChange={(newStatus) => setUserStatus(newStatus)}
+        onAction={handleAction}
+      />
     );
   }
 
-  return (
-    <div className="flex items-center gap-2">
-      <Link
-        href="/signup?mode=signin"
-        className="px-3 py-1.5 rounded-full text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center gap-1.5"
-      >
-        <LogIn className="w-3.5 h-3.5" />
-        Sign In
-      </Link>
+  const demoUserData = {
+    name: "Sahil Singh",
+    username: "@sahilcodex",
+    avatar: "https://sahilcodex.vercel.app/_next/image?url=%2Favatar.avif&w=256&q=75",
+    initials: "SS",
+    status: userStatus,
+  };
 
-      <Link
-        href="/signup?mode=signup"
-        className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer shadow-xs flex items-center gap-1.5"
-      >
-        <UserPlus className="w-3.5 h-3.5" />
-        Sign Up
-      </Link>
+  return (
+    <div className="flex items-center gap-3">
+      <UserDropdown
+        user={demoUserData}
+        selectedStatus={userStatus}
+        onStatusChange={(newStatus) => setUserStatus(newStatus)}
+        onAction={handleAction}
+      />
+      <div className="hidden sm:flex items-center gap-2">
+        <Link
+          href="/signup?mode=signin"
+          className="px-3 py-1.5 rounded-full text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center gap-1.5"
+        >
+          <LogIn className="w-3.5 h-3.5" />
+          Sign In
+        </Link>
+      </div>
     </div>
   );
 }

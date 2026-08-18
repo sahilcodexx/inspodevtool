@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { X, Plus, Send, CheckCircle2 } from "lucide-react";
 import { createToolInDatabase } from "@/lib/appwrite-db";
-import { getCategories, getToolsFromDatabase } from "@/lib/tools";
+import { DEFAULT_CATEGORY, getCategoryOptions, getToolsFromDatabase } from "@/lib/tools";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,9 +31,9 @@ export function SubmitToolModal({ isOpen, onClose }: SubmitToolModalProps) {
   useEffect(() => {
     if (!isOpen || categories.length) return;
     getToolsFromDatabase().then((tools) => {
-      const nextCategories = getCategories(tools).filter((item) => item !== "All");
+      const nextCategories = getCategoryOptions(tools);
       setCategories(nextCategories);
-      setCategory(nextCategories[0] || "__new__");
+      setCategory(DEFAULT_CATEGORY);
     });
   }, [categories.length, isOpen]);
 
@@ -60,7 +60,7 @@ export function SubmitToolModal({ isOpen, onClose }: SubmitToolModalProps) {
         setSuccess(false);
         setName("");
         setUrl("");
-        setCategory(categories[0] || "__new__");
+        setCategory(DEFAULT_CATEGORY);
         setNewCategory("");
         setDescription("");
         onClose();
@@ -135,7 +135,8 @@ export function SubmitToolModal({ isOpen, onClose }: SubmitToolModalProps) {
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="tool-category">Category</FieldLabel>
+                  <FieldLabel htmlFor="tool-category">Category</FieldLabel>
+                  <FieldDescription>Choose the closest fit. You can also create a new category.</FieldDescription>
                 <select
                   id="tool-category"
                   value={category}
