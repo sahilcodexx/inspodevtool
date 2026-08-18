@@ -104,41 +104,15 @@ const GlassButton = forwardRef<HTMLButtonElement, GlassButtonProps>(
 );
 GlassButton.displayName = "GlassButton";
 
-// --- EXACT PASTEL MESH GRADIENT FROM IMAGE 2 ---
-const GradientBackground = () => (
-    <>
-        <style>
-            {` @keyframes float1 { 0% { transform: translate(0, 0); } 50% { transform: translate(-15px, 15px); } 100% { transform: translate(0, 0); } } @keyframes float2 { 0% { transform: translate(0, 0); } 50% { transform: translate(15px, -15px); } 100% { transform: translate(0, 0); } } `}
-        </style>
-        <svg width="100%" height="100%" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" className="absolute top-0 left-0 w-full h-full pointer-events-none">
-            <rect width="100%" height="100%" className="fill-[#fbf9f5] dark:fill-[#0c0c0e] transition-colors duration-300" />
-            <defs>
-                <linearGradient id="rev_grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{stopColor: '#334155', stopOpacity: 0.35}} />
-                    <stop offset="100%" style={{stopColor: '#475569', stopOpacity: 0.2}} />
-                </linearGradient>
-                <linearGradient id="rev_grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{stopColor: '#f97316', stopOpacity: 0.35}} />
-                    <stop offset="50%" style={{stopColor: '#fb923c', stopOpacity: 0.25}} />
-                    <stop offset="100%" style={{stopColor: '#fde047', stopOpacity: 0.2}} />
-                </linearGradient>
-                <radialGradient id="rev_grad3" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" style={{stopColor: '#f97316', stopOpacity: 0.25}} />
-                    <stop offset="100%" style={{stopColor: '#fdba74', stopOpacity: 0.08}} />
-                </radialGradient>
-                <filter id="rev_blur1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter>
-                <filter id="rev_blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
-                <filter id="rev_blur3" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="70"/></filter>
-            </defs>
-            <g style={{ animation: 'float1 20s ease-in-out infinite' }}>
-                <ellipse cx="150" cy="450" rx="320" ry="240" fill="url(#rev_grad1)" filter="url(#rev_blur1)"/>
-                <rect x="450" y="30" width="420" height="380" rx="140" fill="url(#rev_grad2)" filter="url(#rev_blur2)" transform="rotate(15 650 225)"/>
-            </g>
-            <g style={{ animation: 'float2 25s ease-in-out infinite' }}>
-                <circle cx="650" cy="180" r="240" fill="url(#rev_grad3)" filter="url(#rev_blur3)"/>
-            </g>
-        </svg>
-    </>
+// --- BANNER IMAGE BACKGROUND WITH DARK MODE GRAYSCALE ---
+const BannerBackground = () => (
+  <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none">
+    {/* Banner Background Image with Grayscale & Brightness Adjustment in Dark Mode */}
+    <div className="absolute inset-0 bg-[url('/banner.png')] bg-cover bg-center transition-all duration-300 dark:grayscale dark:brightness-[0.4] dark:contrast-125 opacity-90 dark:opacity-60" />
+
+    {/* Subtle Readability Layer */}
+    <div className="absolute inset-0 bg-[#fbf9f5]/70 dark:bg-[#0c0c0e]/80 backdrop-blur-[1px] transition-colors duration-300" />
+  </div>
 );
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => ( <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className="w-4 h-4 shrink-0"> <g fillRule="evenodd" fill="none"> <g fillRule="nonzero" transform="translate(3, 2)"> <path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path> <path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415991 12.7159637,35.3297782 L12.3700541,35.3591501 L3.26524241,42.4054492 L3.14617358,42.736447 C7.9965904,52.3717589 17.959737,58.9921667 29.4960833,58.9921667"></path> <path fill="#FBBC05" d="M12.7159637,35.3297782 C12.0932812,33.4944915 11.7329116,31.5279353 11.7329116,29.4960833 C11.7329116,27.4640054 12.0932812,25.4976752 12.6832029,23.6623884 L12.6667095,23.2715173 L3.44779955,16.1120237 L3.14617358,16.2554937 C1.14708246,20.2539019 0,24.7439491 0,29.4960833 C0,34.2482175 1.14708246,38.7380388 3.14617358,42.736447 L12.7159637,35.3297782"></path> <path fill="#EB4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7968415 L49.2255853,7.66898166 C44.1130815,2.91684746 37.4599129,0 29.4960833,0 C17.959737,0 7.9965904,6.62018183 3.14617358,16.2554937 L12.6832029,23.6623884 C15.0758763,16.5505675 21.6960582,11.4050769 29.4960833,11.4050769"></path> </g> </g></svg> );
@@ -181,7 +155,6 @@ export const AuthComponent = ({
   const [authStep, setAuthStep] = useState("email");
   const [modalStatus, setModalStatus] = useState<'closed' | 'loading' | 'error' | 'success'>('closed');
   const [modalErrorMessage, setModalErrorMessage] = useState('');
-  const confettiRef = useRef<ConfettiRef>(null);
 
   const isEmailValid = /\S+@\S+\.\S+/.test(email);
   const isPasswordValid = password.length >= 6;
@@ -191,12 +164,29 @@ export const AuthComponent = ({
   const confirmPasswordInputRef = useRef<HTMLInputElement>(null);
   
   const fireSideCanons = () => {
-    const fire = confettiRef.current?.fire;
-    if (fire) {
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
-        const particleCount = 50;
-        fire({ ...defaults, particleCount, origin: { x: 0, y: 1 }, angle: 60 });
-        fire({ ...defaults, particleCount, origin: { x: 1, y: 1 }, angle: 120 });
+    if (typeof window === "undefined") return;
+    const canvas = document.createElement("canvas");
+    canvas.style.position = "fixed";
+    canvas.style.inset = "0";
+    canvas.style.width = "100vw";
+    canvas.style.height = "100vh";
+    canvas.style.pointerEvents = "none";
+    canvas.style.zIndex = "999";
+    document.body.appendChild(canvas);
+
+    try {
+      const myConfetti = confetti.create(canvas, { resize: true, useWorker: true });
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+      const particleCount = 50;
+      myConfetti({ ...defaults, particleCount, origin: { x: 0, y: 1 }, angle: 60 });
+      myConfetti({ ...defaults, particleCount, origin: { x: 1, y: 1 }, angle: 120 });
+
+      setTimeout(() => {
+        myConfetti.reset();
+        canvas.remove();
+      }, 3500);
+    } catch (e) {
+      canvas.remove();
     }
   };
 
@@ -319,7 +309,6 @@ export const AuthComponent = ({
             .glass-input-wrap { position: relative; z-index: 2; transform-style: preserve-3d; border-radius: 9999px; } .glass-input { display: flex; position: relative; width: 100%; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.25rem; -webkit-tap-highlight-color: transparent; backdrop-filter: blur(clamp(1px, 0.125em, 4px)); transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1); background: linear-gradient(-75deg, rgba(255,255,255,0.8), rgba(255,255,255,0.95), rgba(255,255,255,0.8)); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.04); } .dark .glass-input { background: linear-gradient(-75deg, rgba(255,255,255,0.05), rgba(255,255,255,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0.125em 0.125em rgba(0,0,0,0.2); } .glass-input-wrap:focus-within .glass-input { backdrop-filter: blur(0.01em); } .glass-input::after { content: ""; position: absolute; z-index: 1; inset: 0; border-radius: 9999px; width: calc(100% + clamp(1px, 0.0625em, 4px)); height: calc(100% + clamp(1px, 0.0625em, 4px)); top: calc(0% - clamp(1px, 0.0625em, 4px) / 2); left: calc(0% - clamp(1px, 0.0625em, 4px) / 2); padding: clamp(1px, 0.0625em, 4px); box-sizing: border-box; background: conic-gradient(from var(--angle-1) at 50% 50%, rgba(0,0,0,0.15) 0%, transparent 5% 40%, rgba(0,0,0,0.15) 50%, transparent 60% 95%, rgba(0,0,0,0.15) 100%), linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.05)); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1), --angle-1 500ms ease; pointer-events: none; } .dark .glass-input::after { background: conic-gradient(from var(--angle-1) at 50% 50%, rgba(255,255,255,0.3) 0%, transparent 5% 40%, rgba(255,255,255,0.3) 50%, transparent 60% 95%, rgba(255,255,255,0.3) 100%), linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1)); } .glass-input-wrap:focus-within .glass-input::after { --angle-1: -125deg; } .glass-input-text-area { position: absolute; inset: 0; border-radius: 9999px; pointer-events: none; } .glass-input-text-area::after { content: ""; display: block; position: absolute; width: calc(100% - clamp(1px, 0.0625em, 4px)); height: calc(100% - clamp(1px, 0.0625em, 4px)); top: calc(0% + clamp(1px, 0.0625em, 4px) / 2); left: calc(0% + clamp(1px, 0.0625em, 4px) / 2); box-sizing: border-box; border-radius: 9999px; overflow: clip; background: linear-gradient(var(--angle-2), transparent 0%, rgba(255,255,255,0.3) 40% 50%, transparent 55%); z-index: 3; mix-blend-mode: screen; pointer-events: none; background-size: 200% 200%; background-position: 0% 50%; transition: background-position calc(400ms * 1.25) cubic-bezier(0.25, 1, 0.5, 1), --angle-2 calc(400ms * 1.25) cubic-bezier(0.25, 1, 0.5, 1); } .glass-input-wrap:focus-within .glass-input-text-area::after { background-position: 25% 50%; }
         `}</style>
 
-        <Confetti ref={confettiRef} manualstart className="fixed top-0 left-0 w-full h-full pointer-events-none z-[999]" />
         <Modal />
 
         <div className="absolute top-6 left-6 z-20 flex items-center gap-2">
@@ -328,7 +317,7 @@ export const AuthComponent = ({
         </div>
 
         <div className="flex w-full flex-1 h-full items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 z-0"><GradientBackground /></div>
+            <div className="absolute inset-0 z-0"><BannerBackground /></div>
             <fieldset disabled={modalStatus !== 'closed'} className="relative z-10 flex flex-col items-center gap-6 w-[320px] max-w-full mx-auto p-4">
                 <AnimatePresence mode="wait">
                     {authStep === "email" && <motion.div key="email-content" initial={{ y: 6, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: "easeOut" }} className="w-full flex flex-col items-center gap-4">

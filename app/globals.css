@@ -111,7 +111,7 @@
 }
 
 [data-theme="dark"], .dark {
-  --bg: #09090b;
+  --bg: #0c0c0e;
   --heading: #f4f4f5;
   --title: #fafafa;
   --sub: #a1a1aa;
@@ -175,4 +175,44 @@ body {
   html {
     @apply font-sans;
   }
+}
+
+/* --- MINIMALIST CUSTOM SCROLLBAR FOR LIGHT & DARK MODES --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(161, 161, 170, 0.3);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(161, 161, 170, 0.6);
+}
+
+.dark ::-webkit-scrollbar-thumb,
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover,
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(161, 161, 170, 0.3) transparent;
+}
+
+.dark *,
+[data-theme="dark"] * {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }

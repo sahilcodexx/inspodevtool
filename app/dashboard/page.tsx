@@ -75,7 +75,7 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="flex min-h-screen w-full min-w-0 bg-white text-zinc-900 dark:bg-[#09090b] dark:text-zinc-100">
+    <div className="flex min-h-screen w-full min-w-0 bg-white text-zinc-900 dark:bg-[#0c0c0e] dark:text-zinc-100">
       <Sidebar />
       <div className="flex min-w-0 w-0 flex-1 flex-col"><Navbar />
         <main className="mx-auto w-full max-w-none flex-1 px-6 py-8 sm:px-10 lg:px-14 xl:px-16">
